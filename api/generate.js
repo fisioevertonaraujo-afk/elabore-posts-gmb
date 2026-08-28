@@ -61,7 +61,7 @@ DIRETRIZES RÍGIDAS DE GMB:
 AUDITORIA VISUAL:
 Analise a imagem para risco de rejeição no Google (ex: placas de carros visíveis, preços/etiquetas legíveis, marcas registradas).
 
-Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
+Retorne APENAS um JSON válido no seguinte formato:
 {
   "statusSeguranca": "Aprovada" ou "Atenção: Risco Detectado",
   "alertaDetalhado": "Descreva o risco se houver ou deixe vazio",
@@ -80,7 +80,8 @@ Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
       }
       parts.push({ text: prompt });
 
-      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      // Chamada com o identificador padrão 'gemini-2.5-flash'
+      let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -92,7 +93,23 @@ Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
         })
       });
 
-      const data = await geminiRes.json();
+      let data = await response.json();
+
+      // Fallback para gemini-2.0-flash caso 2.5 não esteja habilitado na chave
+      if (data.error) {
+        response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts }],
+            generationConfig: {
+              responseMimeType: "application/json",
+              temperature: 0.3
+            }
+          })
+        });
+        data = await response.json();
+      }
 
       if (data.error) {
         throw new Error(data.error.message || 'Erro na API do Gemini');
@@ -100,7 +117,7 @@ Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
 
       const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!rawText) {
-        throw new Error('Nenhum texto retornado pelo modelo de IA.');
+        throw new Error('Nenhum texto retornado pelo modelo.');
       }
 
       const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
