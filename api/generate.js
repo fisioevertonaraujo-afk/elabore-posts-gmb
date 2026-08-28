@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       if (imgObj.type === 'base64') {
         base64Image = imgObj.data;
         mimeType = imgObj.mimeType || 'image/jpeg';
-      } else if (imgObj.type === 'url') {
+      } else if (imgObj.type === 'url' && imgObj.url) {
         let directUrl = imgObj.url;
         if (directUrl.includes('drive.google.com')) {
           const match = directUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || directUrl.match(/id=([a-zA-Z0-9_-]+)/);
@@ -32,21 +32,21 @@ export default async function handler(req, res) {
           base64Image = Buffer.from(arrayBuffer).toString('base64');
           mimeType = imgRes.headers.get('content-type') || 'image/jpeg';
         } catch (e) {
-          // Segue caso a imagem falhe o fetch
+          console.error("Erro ao baixar imagem via URL:", e);
         }
       }
 
       const prompt = `
 Você é o especialista sênior em SEO Local e Google Meu Negócio da agência Elabore.
-Gere uma postagem de alta conversão para o GMB com base nos dados do cliente e na foto fornecida.
+Gere uma postagem de alta conversão para o GMB com base nos dados do cliente e na imagem fornecida.
 
 DADOS DO CLIENTE:
 - Nome: ${client.nome}
 - Segmento/Categoria: ${client.segmento} / ${client.categoria}
 - Localização: Bairro ${client.bairro}, Cidade ${client.cidade}
 - Serviços principais: ${client.servicos}
-- Palavras-chave obrigatórias: ${client.keywords.join(', ')}
-- Tom de Voz: ${client.tom}
+- Palavras-chave obrigatórias: ${client.keywords ? client.keywords.join(', ') : ''}
+- Tom de Voz: ${client.tom || 'Profissional e direto'}
 - Restrições específicas: ${client.restricoes || 'Nenhuma'}
 - Observações adicionais: ${client.obs || 'Nenhuma'}
 
@@ -61,37 +61,51 @@ DIRETRIZES RÍGIDAS DE GMB:
 AUDITORIA VISUAL:
 Analise a imagem para risco de rejeição no Google (ex: placas de carros visíveis, preços/etiquetas legíveis, marcas registradas).
 
-FORMATO DA RESPOSTA (RESPONDA EXATAMENTE NESSE JSON):
+Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
 {
   "statusSeguranca": "Aprovada" ou "Atenção: Risco Detectado",
-  "alertaDetalhado": "Descreva o risco se houver (ex: Placa de carro visível) ou deixe vazio",
+  "alertaDetalhado": "Descreva o risco se houver ou deixe vazio",
   "textoPost": "Texto da postagem pronto para o GMB"
 }
 `;
 
-      const contents = [{
-        role: "user",
-        parts: [
-          ...(base64Image ? [{ inlineData: { mimeType, data: base64Image } }] : []),
-          { text: prompt }
-        ]
-      }];
+      const parts = [];
+      if (base64Image) {
+        parts.push({
+          inlineData: {
+            mimeType: mimeType.split(';')[0],
+            data: base64Image
+          }
+        });
+      }
+      parts.push({ text: prompt });
 
       const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents,
+          contents: [{ role: "user", parts }],
           generationConfig: {
             responseMimeType: "application/json",
-            temperature: 0.4
+            temperature: 0.3
           }
         })
       });
 
       const data = await geminiRes.json();
+
+      if (data.error) {
+        throw new Error(data.error.message || 'Erro na API do Gemini');
+      }
+
       const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      return JSON.parse(rawText);
+      if (!rawText) {
+        throw new Error('Nenhum texto retornado pelo modelo de IA.');
+      }
+
+      // Limpeza de possíveis formatações markdown
+      const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      return JSON.parse(cleanedText);
     });
 
     const posts = await Promise.all(postsPromises);
