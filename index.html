@@ -26,9 +26,9 @@
               orangeBorder: '#FED7AA',
               dark: '#111827',
               slate: '#6B7280',
-              bg: '#F8FAFC',
+              bg: '#EBECEF',
               card: '#FFFFFF',
-              border: '#E2E8F0'
+              border: '#D5D9E2'
             }
           }
         }
@@ -36,10 +36,10 @@
     }
   </script>
 </head>
-<body class="bg-elabore-bg text-elabore-dark min-h-screen font-sans antialiased selection:bg-elabore-orange selection:text-white">
+<body class="bg-[#EBECEF] text-elabore-dark min-h-screen font-sans antialiased selection:bg-elabore-orange selection:text-white">
 
   <!-- Header Elabore Oficial -->
-  <div class="bg-white border-b border-elabore-border shadow-xs">
+  <div class="bg-white border-b border-slate-300 shadow-sm">
     <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
       
       <!-- Logotipo Vetorial Oficial Elabore Produtora -->
@@ -69,7 +69,7 @@
       </div>
 
       <!-- Card Posicionamento Local -->
-      <div class="flex items-center gap-3 bg-gradient-to-r from-orange-50/80 to-amber-50/50 border border-orange-100 px-4 py-2.5 rounded-2xl shadow-xs">
+      <div class="flex items-center gap-3 bg-gradient-to-r from-orange-50/90 to-amber-50/70 border border-orange-200/80 px-4 py-2.5 rounded-2xl shadow-xs">
         <div class="w-9 h-9 rounded-xl bg-elabore-orange text-white flex items-center justify-center shadow-md shadow-orange-500/20 text-base">
           <i class="fa-solid fa-location-dot"></i>
         </div>
@@ -85,7 +85,7 @@
   <!-- Conteúdo Principal -->
   <main class="max-w-4xl mx-auto px-4 py-10">
     
-    <div class="bg-white border border-elabore-border rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-200/50">
+    <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-300/40">
       
       <!-- Topo do Form com Botão de Limpar em Laranja Elabore -->
       <div class="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
@@ -163,7 +163,7 @@
     <div id="loader" class="hidden text-center py-12">
       <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-orange-100 border-t-elabore-orange mb-3"></div>
       <p class="text-sm font-semibold text-slate-700">Analisando imagem, gerando nomes SEO e copies locais...</p>
-      <p class="text-xs text-slate-400 mt-1">Auditando presença de placas de carros e regras do Google</p>
+      <p class="text-xs text-slate-500 mt-1">Auditando presença de placas de carros e regras do Google</p>
     </div>
 
     <!-- Resultados -->
@@ -312,7 +312,7 @@
       linksContainer.appendChild(div);
     });
 
-    // Ação do Botão Limpar / Novo Cliente
+    // Reset completo
     resetBtn.addEventListener('click', () => {
       clientSelect.value = '';
       clientMeta.classList.add('hidden');
@@ -362,7 +362,7 @@
 
         data.posts.forEach((post, idx) => {
           const card = document.createElement('div');
-          card.className = 'bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-lg shadow-slate-100';
+          card.className = 'bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-300/40';
           
           const isWarning = (post.statusSeguranca || '').toLowerCase().includes('atenção') || (post.statusSeguranca || '').toLowerCase().includes('risco');
           const badgeClass = isWarning ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
@@ -386,7 +386,7 @@
                 <span class="text-[11px] font-bold uppercase tracking-wider text-elabore-orange font-display flex items-center gap-1.5">
                   <i class="fa-solid fa-file-image"></i> Nome Recomendado para a Foto (SEO)
                 </span>
-                <button onclick="copiarTexto('fileName_${idx}', this)" class="text-xs bg-white hover:bg-orange-100 text-slate-700 font-bold px-3 py-1 rounded-lg border border-orange-200 shadow-xs transition flex items-center gap-1">
+                <button onclick="copiarTexto('fileName_${idx}', this)" class="text-xs bg-white hover:bg-orange-100 text-slate-700 font-bold px-3 py-1 rounded-lg border border-orange-200 shadow-xs transition flex items-center gap-1 cursor-pointer">
                   <i class="fa-regular fa-copy"></i> Copiar Nome
                 </button>
               </div>
@@ -398,7 +398,7 @@
             <div class="bg-slate-50 rounded-2xl p-5 text-slate-700 text-sm whitespace-pre-wrap leading-relaxed border border-slate-200/80 mb-5" id="copyText_${idx}">${post.textoPost}</div>
 
             <div class="flex justify-end">
-              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 px-5 rounded-xl transition flex items-center gap-2 shadow-sm active:scale-95">
+              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 px-5 rounded-xl transition flex items-center gap-2 shadow-sm active:scale-95 cursor-pointer">
                 <i class="fa-regular fa-copy"></i> Copiar Texto da Postagem
               </button>
             </div>
