@@ -36,45 +36,58 @@
         </select>
       </div>
 
-      <!-- Resumo do Perfil Selecionado -->
-      <div id="clientMeta" class="hidden mb-6 p-4 bg-slate-900/60 border border-slate-750 rounded-xl text-xs text-slate-400 grid grid-cols-2 gap-2">
-        <!-- Injetado dinamicamente -->
-      </div>
+      <!-- Resumo do Perfil -->
+      <div id="clientMeta" class="hidden mb-6 p-4 bg-slate-900/60 border border-slate-750 rounded-xl text-xs text-slate-400 grid grid-cols-2 gap-2"></div>
 
-      <!-- Inserção de Links das Imagens -->
+      <!-- Seção de Mídia: Upload Local + Links do Drive -->
       <div class="mb-6">
         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-          2. Links das Imagens (Google Drive ou Web)
+          2. Adicione as Imagens (Drive ou do Computador)
         </label>
-        <div id="linksContainer" class="space-y-3">
-          <div class="flex gap-2">
-            <input type="text" placeholder="Cole o link da foto no Google Drive..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
-          </div>
+
+        <!-- Dropzone de Arquivos Locais -->
+        <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-emerald-500 rounded-xl p-6 text-center cursor-pointer bg-slate-900/40 transition mb-4">
+          <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+          <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-400 mb-2"></i>
+          <p class="text-sm font-medium text-slate-200">Clique para selecionar do computador ou arraste as fotos aqui</p>
+          <p class="text-xs text-slate-500 mt-1">PNG, JPG ou WEBP (pode selecionar várias de uma vez)</p>
         </div>
-        <button id="addLinkBtn" class="mt-3 text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1">
-          <i class="fa-solid fa-plus"></i> Adicionar outra foto (Post em lote)
-        </button>
+
+        <!-- Preview das Fotos do Computador -->
+        <div id="filePreviews" class="grid grid-cols-4 gap-3 mb-4 empty:hidden"></div>
+
+        <!-- Links do Google Drive -->
+        <div class="pt-3 border-t border-slate-750">
+          <span class="text-xs text-slate-400 mb-2 block font-medium">Ou cole links do Google Drive:</span>
+          <div id="linksContainer" class="space-y-2">
+            <div class="flex gap-2">
+              <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
+            </div>
+          </div>
+          <button id="addLinkBtn" type="button" class="mt-2 text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1">
+            <i class="fa-solid fa-plus"></i> Adicionar outro link do Drive
+          </button>
+        </div>
       </div>
 
-      <!-- Botão Gerar -->
+      <!-- Botão de Ação -->
       <button id="generateBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl shadow-lg hover:shadow-emerald-500/20 transition flex items-center justify-center gap-2">
         <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Imagens & Gerar Posts
       </button>
     </div>
 
-    <!-- Feedback de Carregamento -->
+    <!-- Loader -->
     <div id="loader" class="hidden text-center py-12">
       <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-700 border-t-emerald-400 mb-3"></div>
-      <p class="text-sm text-slate-400">Analisando mídia e escrevendo copies otimizadas...</p>
+      <p class="text-sm text-slate-400">Analisando mídias e escrevendo copies otimizadas...</p>
     </div>
 
-    <!-- Resultados Gerados -->
+    <!-- Resultados -->
     <div id="results" class="space-y-6"></div>
 
   </div>
 
   <script>
-    // Base de Clientes extraída da planilha
     const CLIENTS = [
       {
         id: "CLI004",
@@ -134,15 +147,19 @@
       }
     ];
 
+    let uploadedFiles = [];
+
     const clientSelect = document.getElementById('clientSelect');
     const clientMeta = document.getElementById('clientMeta');
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const filePreviews = document.getElementById('filePreviews');
     const linksContainer = document.getElementById('linksContainer');
     const addLinkBtn = document.getElementById('addLinkBtn');
     const generateBtn = document.getElementById('generateBtn');
     const loader = document.getElementById('loader');
     const results = document.getElementById('results');
 
-    // Popular Select
     clientSelect.innerHTML = '<option value="">Selecione um cliente...</option>' + 
       CLIENTS.map(c => `<option value="${c.id}">${c.nome} (${c.cidade} - ${c.bairro})</option>`).join('');
 
@@ -161,36 +178,80 @@
       }
     });
 
-    // Adicionar mais links de fotos
+    // Upload & Drag-and-drop de arquivos locais
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-emerald-500'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-emerald-500'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-emerald-500');
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedFiles.push({ data: e.target.result, name: file.name, type: file.type });
+          renderPreviews();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderPreviews() {
+      filePreviews.innerHTML = uploadedFiles.map((file, idx) => `
+        <div class="relative group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden aspect-video">
+          <img src="${file.data}" class="w-full h-full object-cover">
+          <button type="button" onclick="removeFile(${idx})" class="absolute top-1 right-1 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-80 hover:opacity-100">✕</button>
+        </div>
+      `).join('');
+    }
+
+    window.removeFile = function(index) {
+      uploadedFiles.splice(index, 1);
+      renderPreviews();
+    };
+
+    // Adicionar mais campos de links
     addLinkBtn.addEventListener('click', () => {
       const div = document.createElement('div');
       div.className = 'flex gap-2';
       div.innerHTML = `
-        <input type="text" placeholder="Cole o link de outra foto..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
+        <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
         <button type="button" class="text-slate-500 hover:text-rose-400 px-2" onclick="this.parentElement.remove()">✕</button>
       `;
       linksContainer.appendChild(div);
     });
 
-    // Processamento
+    // Submissão
     generateBtn.addEventListener('click', async () => {
       const clientId = clientSelect.value;
       if (!clientId) return alert('Selecione um cliente.');
 
       const client = CLIENTS.find(c => c.id === clientId);
-      const inputs = Array.from(document.querySelectorAll('.image-link'));
-      const links = inputs.map(i => i.value.trim()).filter(Boolean);
+      const urlLinks = Array.from(document.querySelectorAll('.image-link')).map(i => i.value.trim()).filter(Boolean);
 
-      if (links.length === 0) return alert('Adicione pelo menos um link de imagem.');
+      if (uploadedFiles.length === 0 && urlLinks.length === 0) {
+        return alert('Adicione pelo menos uma imagem (anexando do computador ou colando link do Drive).');
+      }
 
       loader.classList.remove('hidden');
       results.innerHTML = '';
+
+      // Monta payload unificado (arquivos em base64 + URLs)
+      const payloadImages = [
+        ...uploadedFiles.map(f => ({ type: 'base64', data: f.data.split(',')[1], mimeType: f.type })),
+        ...urlLinks.map(url => ({ type: 'url', url }))
+      ];
 
       try {
         const response = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ client, imageUrls: links })
+          body: JSON.stringify({ client, images: payloadImages })
         });
 
         const data = await response.json();
@@ -232,14 +293,14 @@
       }
     });
 
-    function copiarTexto(elementId, btn) {
+    window.copiarTexto = function(elementId, btn) {
       const text = document.getElementById(elementId).innerText;
       navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> Copiado!';
         setTimeout(() => btn.innerHTML = originalHtml, 2000);
       });
-    }
+    };
   </script>
 </body>
 </html>
