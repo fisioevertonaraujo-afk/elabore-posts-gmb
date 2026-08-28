@@ -10,7 +10,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, message: 'Chave GEMINI_API_KEY não configurada na Vercel.' });
   }
 
-  // Função auxiliar para normalizar texto para nome de arquivo SEO
   const slugify = (text) => {
     return (text || '')
       .toString()
@@ -48,8 +47,7 @@ export default async function handler(req, res) {
       }
 
       const prompt = `
-Você é o especialista sênior em SEO Local e Google Meu Negócio da agência Elabore.
-Gere uma postagem de alta conversão para o GMB e um nome de arquivo otimizado para SEO com base nos dados do cliente e na imagem fornecida.
+Você é o especialista sênior em SEO Local e auditor de diretrizes do Google Meu Negócio da agência Elabore.
 
 DADOS DO CLIENTE:
 - Nome: ${client.nome}
@@ -61,7 +59,7 @@ DADOS DO CLIENTE:
 - Restrições específicas: ${client.restricoes || 'Nenhuma'}
 - Observações adicionais: ${client.obs || 'Nenhuma'}
 
-DIRETRIZES RÍGIDAS DE GMB:
+DIRETRIZES DE TEXTO GMB:
 1. NUNCA inclua preços, valores monetários (R$), telefones, WhatsApp ou links externos no texto.
 2. Não utilize travessão (-) como conector estilístico no texto do post.
 3. Seja conciso (100 a 180 palavras), com linguagem natural e persuasiva.
@@ -73,14 +71,23 @@ SEO DE NOMEAÇÃO DA IMAGEM:
 Crie um nome de arquivo em minúsculas, sem acentos, com palavras separadas por hífen e extensão .jpg.
 Estrutura: [termo-do-servico-na-foto]-[bairro]-[cidade]-[nome-do-cliente].jpg
 
-AUDITORIA VISUAL:
-Analise a imagem para risco de rejeição no Google (ex: placas de carros visíveis, preços/etiquetas legíveis, marcas registradas).
+AUDITORIA VISUAL RIGOROSA (DIRETRIZES DO GOOGLE MEU NEGÓCIO):
+Analise a imagem minuciosamente quanto a possíveis infrações que causam rejeição ou suspensão no Google:
+1. Placas de veículos expostas e legíveis.
+2. Valores monetários, preços (R$) ou promoções explícitas visíveis em faixas/etiquetas.
+3. Telefones, números de WhatsApp, URLs ou links gravados diretamente sobre a foto.
+4. Rostos de terceiros não autorizados ou clientes em primeiro plano sem contexto.
+5. Imagem com qualidade excessivamente baixa, borrada, muito escura ou com cara de banco de imagens genérico.
+6. Sobreposição excessiva de texto ou elementos promocionais poluindo a imagem.
 
-Retorne APENAS um objeto JSON válido (sem tags adicionais):
+Se encontrar QUALQUER um desses pontos, marque "statusSeguranca" como "Atenção: Risco Detectado" e no "alertaDetalhado" explique exatamente o que foi visto e como ajustar (ex: "Placa de veículo visível ao fundo da foto. Recomendado borrar a placa antes de publicar no GMB.").
+Se a imagem estiver 100% segura, marque "statusSeguranca" como "Aprovada" e deixe "alertaDetalhado" vazio.
+
+Retorne APENAS um objeto JSON válido:
 {
   "nomeArquivoSugerido": "servico-bairro-cidade-cliente.jpg",
   "statusSeguranca": "Aprovada" ou "Atenção: Risco Detectado",
-  "alertaDetalhado": "Descreva o risco se houver ou deixe vazio",
+  "alertaDetalhado": "Explicação clara e específica da diretriz violada e como corrigir",
   "textoPost": "Texto da postagem pronto para o GMB"
 }
 `;
@@ -137,7 +144,6 @@ Retorne APENAS um objeto JSON válido (sem tags adicionais):
       const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
       const parsed = JSON.parse(cleanedText);
 
-      // Fallback de segurança: se o modelo não trouxer o nome, monta o padrão SEO local
       if (!parsed.nomeArquivoSugerido) {
         const kw = client.keywords?.[index % client.keywords.length] || client.segmento || 'servico';
         parsed.nomeArquivoSugerido = `${slugify(kw)}-${slugify(client.bairro)}-${slugify(client.cidade)}-${slugify(client.nome)}.jpg`;
