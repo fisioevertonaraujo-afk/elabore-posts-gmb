@@ -10,8 +10,19 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, message: 'Chave GEMINI_API_KEY não configurada na Vercel.' });
   }
 
+  // Função auxiliar para normalizar texto para nome de arquivo SEO
+  const slugify = (text) => {
+    return (text || '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
   try {
-    const postsPromises = images.map(async (imgObj) => {
+    const postsPromises = images.map(async (imgObj, index) => {
       let base64Image = null;
       let mimeType = 'image/jpeg';
 
@@ -38,7 +49,7 @@ export default async function handler(req, res) {
 
       const prompt = `
 Você é o especialista sênior em SEO Local e Google Meu Negócio da agência Elabore.
-Gere uma postagem de alta conversão para o GMB com base nos dados do cliente e na imagem fornecida.
+Gere uma postagem de alta conversão para o GMB e um nome de arquivo otimizado para SEO com base nos dados do cliente e na imagem fornecida.
 
 DADOS DO CLIENTE:
 - Nome: ${client.nome}
@@ -52,17 +63,22 @@ DADOS DO CLIENTE:
 
 DIRETRIZES RÍGIDAS DE GMB:
 1. NUNCA inclua preços, valores monetários (R$), telefones, WhatsApp ou links externos no texto.
-2. Não utilize travessão (-) como conector estilístico.
+2. Não utilize travessão (-) como conector estilístico no texto do post.
 3. Seja conciso (100 a 180 palavras), com linguagem natural e persuasiva.
 4. Conecte o texto ao que você está vendo na imagem.
 5. Insira a localização (${client.bairro}, ${client.cidade}) de forma orgânica para indexação local.
 6. Termine com CTA alinhado ao botão oficial (ex: clique em Saiba Mais ou Agende).
 
+SEO DE NOMEAÇÃO DA IMAGEM:
+Crie um nome de arquivo em minúsculas, sem acentos, com palavras separadas por hífen e extensão .jpg.
+Estrutura: [termo-do-servico-na-foto]-[bairro]-[cidade]-[nome-do-cliente].jpg
+
 AUDITORIA VISUAL:
 Analise a imagem para risco de rejeição no Google (ex: placas de carros visíveis, preços/etiquetas legíveis, marcas registradas).
 
-Retorne APENAS um JSON válido no seguinte formato:
+Retorne APENAS um objeto JSON válido (sem tags adicionais):
 {
+  "nomeArquivoSugerido": "servico-bairro-cidade-cliente.jpg",
   "statusSeguranca": "Aprovada" ou "Atenção: Risco Detectado",
   "alertaDetalhado": "Descreva o risco se houver ou deixe vazio",
   "textoPost": "Texto da postagem pronto para o GMB"
@@ -80,7 +96,6 @@ Retorne APENAS um JSON válido no seguinte formato:
       }
       parts.push({ text: prompt });
 
-      // Chamada com o identificador padrão 'gemini-2.5-flash'
       let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,14 +103,13 @@ Retorne APENAS um JSON válido no seguinte formato:
           contents: [{ role: "user", parts }],
           generationConfig: {
             responseMimeType: "application/json",
-            temperature: 0.3
+            temperature: 0.2
           }
         })
       });
 
       let data = await response.json();
 
-      // Fallback para gemini-2.0-flash caso 2.5 não esteja habilitado na chave
       if (data.error) {
         response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
@@ -104,7 +118,7 @@ Retorne APENAS um JSON válido no seguinte formato:
             contents: [{ role: "user", parts }],
             generationConfig: {
               responseMimeType: "application/json",
-              temperature: 0.3
+              temperature: 0.2
             }
           })
         });
@@ -121,7 +135,17 @@ Retorne APENAS um JSON válido no seguinte formato:
       }
 
       const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      return JSON.parse(cleanedText);
+      const parsed = JSON.parse(cleanedText);
+
+      // Fallback de segurança: se o modelo não trouxer o nome, monta o padrão SEO local
+      if (!parsed.nomeArquivoSugerido) {
+        const kw = client.keywords?.[index % client.keywords.length] || client.segmento || 'servico';
+        parsed.nomeArquivoSugerido = `${slugify(kw)}-${slugify(client.bairro)}-${slugify(client.cidade)}-${slugify(client.nome)}.jpg`;
+      } else {
+        parsed.nomeArquivoSugerido = slugify(parsed.nomeArquivoSugerido.replace(/\.jpg$/i, '')) + '.jpg';
+      }
+
+      return parsed;
     });
 
     const posts = await Promise.all(postsPromises);
