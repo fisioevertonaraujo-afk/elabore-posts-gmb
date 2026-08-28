@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Método não permitido' });
   }
 
-  const { client, imageUrls } = req.body;
+  const { client, images } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -11,24 +11,29 @@ export default async function handler(req, res) {
   }
 
   try {
-    const postsPromises = imageUrls.map(async (url) => {
-      let directUrl = url;
-      if (url.includes('drive.google.com')) {
-        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          directUrl = `https://lh3.googleusercontent.com/u/0/d/${match[1]}=s1000`;
-        }
-      }
-
+    const postsPromises = images.map(async (imgObj) => {
       let base64Image = null;
       let mimeType = 'image/jpeg';
-      try {
-        const imgRes = await fetch(directUrl);
-        const arrayBuffer = await imgRes.arrayBuffer();
-        base64Image = Buffer.from(arrayBuffer).toString('base64');
-        mimeType = imgRes.headers.get('content-type') || 'image/jpeg';
-      } catch (e) {
-        // Prossegue caso a imagem falhe o fetch direto
+
+      if (imgObj.type === 'base64') {
+        base64Image = imgObj.data;
+        mimeType = imgObj.mimeType || 'image/jpeg';
+      } else if (imgObj.type === 'url') {
+        let directUrl = imgObj.url;
+        if (directUrl.includes('drive.google.com')) {
+          const match = directUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || directUrl.match(/id=([a-zA-Z0-9_-]+)/);
+          if (match && match[1]) {
+            directUrl = `https://lh3.googleusercontent.com/u/0/d/${match[1]}=s1000`;
+          }
+        }
+        try {
+          const imgRes = await fetch(directUrl);
+          const arrayBuffer = await imgRes.arrayBuffer();
+          base64Image = Buffer.from(arrayBuffer).toString('base64');
+          mimeType = imgRes.headers.get('content-type') || 'image/jpeg';
+        } catch (e) {
+          // Segue caso a imagem falhe o fetch
+        }
       }
 
       const prompt = `
