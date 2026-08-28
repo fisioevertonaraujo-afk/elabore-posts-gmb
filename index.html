@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elabore - GMB Post Creator</title>
+  <title>Elabore Produtora | Gerador GMB</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <script>
@@ -16,68 +16,78 @@
         extend: {
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            display: ['Montserrat', 'sans-serif']
+            display: ['Outfit', 'sans-serif']
           },
           colors: {
-            brand: {
-              gold: '#D4AF37',
-              goldHover: '#C59E27',
-              goldLight: '#F3E5AB',
-              dark: '#0A0D12',
-              card: '#12161F',
-              cardBorder: '#1F2633',
-              input: '#0E121A'
+            elabore: {
+              orange: '#DE8200',
+              orangeHover: '#C27100',
+              orangeLight: '#FFF7ED',
+              orangeBorder: '#FED7AA',
+              dark: '#18181B',
+              slate: '#71717A',
+              bg: '#F8FAFC',
+              card: '#FFFFFF',
+              border: '#E2E8F0'
             }
           }
         }
       }
     }
   </script>
-  <style>
-    body {
-      background-color: #080A0F;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.04) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.25) 0px, transparent 50%);
-    }
-  </style>
 </head>
-<body class="text-slate-200 min-h-screen font-sans antialiased selection:bg-brand-gold selection:text-brand-dark">
-  <div class="max-w-4xl mx-auto px-4 py-10">
-    
-    <!-- Header Elabore -->
-    <header class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 mb-8 border-b border-brand-cardBorder">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-amber-200 flex items-center justify-center shadow-lg shadow-amber-950/40 text-brand-dark font-black font-display text-2xl">
-          E
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-2xl font-black font-display tracking-wide uppercase text-white">
-              Elabore <span class="text-brand-gold font-light">Produtora</span>
-            </h1>
-            <span class="text-[10px] bg-brand-gold/10 border border-brand-gold/30 text-brand-gold font-bold px-2 py-0.5 rounded-full tracking-wider">AI SUITE</span>
-          </div>
-          <p class="text-xs text-slate-400 mt-0.5">Gerador de Posts GMB com Auditoria Visual e SEO Local</p>
-        </div>
-      </div>
-      
-      <div class="flex items-center gap-2 px-3.5 py-1.5 bg-brand-card border border-brand-cardBorder rounded-full text-xs text-slate-300 font-medium">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Gemini Multimodal Conectado
-      </div>
-    </header>
+<body class="bg-elabore-bg text-elabore-dark min-h-screen font-sans antialiased selection:bg-elabore-orange selection:text-white">
 
-    <!-- Formulário Principal -->
-    <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-6 sm:p-8 mb-8 shadow-2xl backdrop-blur-sm">
+  <!-- Faixa de Destaque Superior com Elementos Visuais -->
+  <div class="bg-white border-b border-elabore-border shadow-xs">
+    <div class="max-w-5xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-6">
       
-      <!-- Passo 1: Seleção de Cliente -->
-      <div class="mb-6">
-        <label class="block text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-2 font-display">
-          1. Selecionar Cliente
-        </label>
+      <!-- Marca Elabore Produtora -->
+      <div class="flex items-center gap-4 text-center md:text-left">
+        <div class="relative flex flex-col items-center">
+          <div class="flex items-baseline font-display text-3xl font-extralight tracking-[0.25em] text-elabore-dark uppercase pl-2">
+            ELAB<span class="relative font-normal">O<svg class="absolute -bottom-1 -left-2 w-10 h-7 text-elabore-orange pointer-events-none" viewBox="0 0 100 60" fill="none"><path d="M5 45 C 35 60, 65 50, 85 10" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><polygon points="75,8 90,8 88,23" fill="currentColor"/></svg></span>RE
+          </div>
+          <span class="font-display text-[10px] tracking-[0.45em] uppercase text-zinc-500 font-medium -mt-1 pl-1">PRODUTORA</span>
+        </div>
+        <div class="hidden sm:block h-10 w-px bg-slate-200 ml-3"></div>
+        <div class="hidden sm:block text-left">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-elabore-orangeLight text-elabore-orange text-[11px] font-bold tracking-wider uppercase border border-elabore-orangeBorder">
+            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> AI Local SEO
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Gerador Inteligente de Postagens para Google Meu Negócio</p>
+        </div>
+      </div>
+
+      <!-- Pino de Negócio Local (Ícone Estilizado 3D) -->
+      <div class="flex items-center gap-3 bg-gradient-to-r from-orange-50/80 to-amber-50/50 border border-orange-100 px-4 py-2.5 rounded-2xl shadow-xs">
+        <div class="w-9 h-9 rounded-xl bg-elabore-orange text-white flex items-center justify-center shadow-md shadow-orange-500/20 text-base">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <div class="text-left text-xs">
+          <span class="font-bold text-slate-800 block">Posicionamento Local</span>
+          <span class="text-slate-500 text-[11px]">Otimização de Perfil GMB</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    
+    <div class="bg-white border border-elabore-border rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-200/50">
+      
+      <!-- Passo 1: Selecionar Cliente -->
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-6 h-6 rounded-full bg-orange-100 text-elabore-orange text-xs font-bold flex items-center justify-center">1</span>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display">
+            Selecione o Cliente
+          </label>
+        </div>
         <div class="relative">
-          <select id="clientSelect" class="w-full bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition cursor-pointer appearance-none">
+          <select id="clientSelect" class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl px-4 py-3.5 text-slate-800 text-sm font-medium focus:outline-none focus:border-elabore-orange focus:ring-4 focus:ring-orange-500/10 transition cursor-pointer appearance-none">
             <option value="">Carregando clientes cadastrados...</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
@@ -87,57 +97,65 @@
       </div>
 
       <!-- Resumo do Perfil -->
-      <div id="clientMeta" class="hidden mb-6 p-4 bg-brand-input/70 border border-brand-cardBorder rounded-xl text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+      <div id="clientMeta" class="hidden mb-8 p-5 bg-gradient-to-br from-slate-50 to-orange-50/30 border border-orange-100/80 rounded-2xl text-xs text-slate-600 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
 
-      <!-- Passo 2: Seção de Mídia (Computador + Drive) -->
+      <!-- Passo 2: Mídias (Upload Local + Links Drive) -->
       <div class="mb-8">
-        <label class="block text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-2 font-display">
-          2. Fotos da Semana (Upload Local ou Google Drive)
-        </label>
-
-        <!-- Dropzone para computador -->
-        <div id="dropzone" class="border-2 border-dashed border-brand-cardBorder hover:border-brand-gold/60 rounded-xl p-8 text-center cursor-pointer bg-brand-input/40 transition group mb-4">
-          <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-800/80 group-hover:bg-brand-gold/10 flex items-center justify-center transition">
-            <i class="fa-solid fa-arrow-up-from-bracket text-lg text-slate-300 group-hover:text-brand-gold transition"></i>
-          </div>
-          <p class="text-sm font-semibold text-white">Arraste as fotos do computador ou clique para escolher</p>
-          <p class="text-xs text-slate-500 mt-1">PNG, JPG ou WEBP (múltiplos arquivos permitidos)</p>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-6 h-6 rounded-full bg-orange-100 text-elabore-orange text-xs font-bold flex items-center justify-center">2</span>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display">
+            Fotos da Postagem (Upload do Computador ou Google Drive)
+          </label>
         </div>
 
-        <!-- Preview das fotos anexadas -->
-        <div id="filePreviews" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 empty:hidden"></div>
+        <!-- Dropzone Clean -->
+        <div id="dropzone" class="border-2 border-dashed border-slate-200 hover:border-elabore-orange hover:bg-orange-50/30 rounded-2xl p-8 text-center cursor-pointer bg-slate-50/60 transition group mb-4">
+          <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+          <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white border border-slate-200 group-hover:border-elabore-orange group-hover:scale-105 flex items-center justify-center transition shadow-sm text-elabore-orange">
+            <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+          </div>
+          <p class="text-sm font-bold text-slate-800">Clique para selecionar do computador ou arraste as fotos aqui</p>
+          <p class="text-xs text-slate-400 mt-1 font-medium">Arquivos PNG, JPG ou WEBP (pode selecionar várias fotos)</p>
+        </div>
+
+        <!-- Preview das Fotos Anexadas -->
+        <div id="filePreviews" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 empty:hidden"></div>
 
         <!-- Links do Google Drive -->
-        <div class="pt-4 border-t border-brand-cardBorder/60">
-          <span class="text-xs text-slate-400 mb-2 block font-medium">Ou cole links diretos do Google Drive:</span>
-          <div id="linksContainer" class="space-y-2">
+        <div class="pt-5 border-t border-slate-100">
+          <span class="text-xs font-semibold text-slate-500 mb-2.5 block flex items-center gap-1.5">
+            <i class="fa-brands fa-google-drive text-emerald-600"></i> Ou cole links compartilhados do Google Drive:
+          </span>
+          <div id="linksContainer" class="space-y-2.5">
             <div class="flex gap-2">
-              <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold transition text-xs sm:text-sm">
+              <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-elabore-orange focus:ring-4 focus:ring-orange-500/10 transition text-xs sm:text-sm">
             </div>
           </div>
-          <button id="addLinkBtn" type="button" class="mt-2.5 text-xs text-brand-gold hover:text-amber-300 font-semibold flex items-center gap-1.5 transition">
+          <button id="addLinkBtn" type="button" class="mt-3 text-xs text-elabore-orange hover:text-elabore-orangeHover font-bold flex items-center gap-1.5 transition">
             <i class="fa-solid fa-circle-plus"></i> Adicionar outro link do Drive
           </button>
         </div>
       </div>
 
-      <!-- Botão de Ação -->
-      <button id="generateBtn" class="w-full bg-gradient-to-r from-brand-gold to-amber-500 hover:from-brand-goldHover hover:to-amber-600 text-brand-dark font-extrabold font-display uppercase tracking-wider py-4 rounded-xl shadow-lg shadow-amber-950/40 hover:shadow-brand-gold/20 transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Fotos & Criar Postagens
+      <!-- Botão Gerar com a Seta da Marca -->
+      <button id="generateBtn" class="w-full bg-gradient-to-r from-elabore-orange to-amber-500 hover:from-elabore-orangeHover hover:to-amber-600 text-white font-extrabold font-display uppercase tracking-wider text-sm py-4 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.005] active:scale-[0.99] transition flex items-center justify-center gap-3 cursor-pointer">
+        <span>Analisar Fotos & Criar Postagens</span>
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
+
     </div>
 
-    <!-- Loader Elegante -->
+    <!-- Loader -->
     <div id="loader" class="hidden text-center py-12">
-      <div class="inline-block animate-spin rounded-full h-9 w-9 border-2 border-slate-700 border-t-brand-gold mb-3"></div>
-      <p class="text-sm font-medium text-slate-300">Processando visão computacional e redigindo copies com SEO local...</p>
+      <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-orange-100 border-t-elabore-orange mb-3"></div>
+      <p class="text-sm font-semibold text-slate-700">Analisando imagem e construindo copies com SEO local...</p>
+      <p class="text-xs text-slate-400 mt-1">Auditando presença de placas de carros e regras do Google</p>
     </div>
 
     <!-- Resultados -->
-    <div id="results" class="space-y-6"></div>
+    <div id="results" class="mt-8 space-y-6"></div>
 
-  </div>
+  </main>
 
   <script>
     const CLIENTS = [
@@ -213,17 +231,17 @@
     const results = document.getElementById('results');
 
     clientSelect.innerHTML = '<option value="">Selecione um cliente...</option>' + 
-      CLIENTS.map(c => `<option value="${c.id}">${c.nome} (${c.cidade} - ${c.bairro})</option>`).join('');
+      CLIENTS.map(c => `<option value="${c.id}">${c.nome} — ${c.cidade} (${c.bairro})</option>`).join('');
 
     clientSelect.addEventListener('change', (e) => {
       const client = CLIENTS.find(c => c.id === e.target.value);
       if (client) {
         clientMeta.classList.remove('hidden');
         clientMeta.innerHTML = `
-          <div><span class="text-slate-400 font-semibold">Segmento:</span> <span class="text-white">${client.segmento}</span></div>
-          <div><span class="text-slate-400 font-semibold">Local:</span> <span class="text-white">${client.bairro}, ${client.cidade}</span></div>
-          <div class="col-span-1 sm:col-span-2"><span class="text-slate-400 font-semibold">Palavras-chave:</span> <span class="text-slate-200">${client.keywords.join(', ')}</span></div>
-          ${client.restricoes ? `<div class="col-span-1 sm:col-span-2 text-amber-300/90"><span class="font-bold">Restrições:</span> ${client.restricoes}</div>` : ''}
+          <div><span class="text-slate-400 font-medium">Segmento:</span> <strong class="text-slate-800">${client.segmento}</strong></div>
+          <div><span class="text-slate-400 font-medium">Localização:</span> <strong class="text-slate-800">${client.bairro}, ${client.cidade}</strong></div>
+          <div class="col-span-1 sm:col-span-2"><span class="text-slate-400 font-medium">Palavras-chave:</span> <span class="text-slate-700 font-medium">${client.keywords.join(', ')}</span></div>
+          ${client.restricoes ? `<div class="col-span-1 sm:col-span-2 text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200/70"><span class="font-bold">⚠️ Restrições:</span> ${client.restricoes}</div>` : ''}
         `;
       } else {
         clientMeta.classList.add('hidden');
@@ -231,11 +249,11 @@
     });
 
     dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-brand-gold'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-brand-gold'));
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-elabore-orange', 'bg-orange-50/50'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-elabore-orange', 'bg-orange-50/50'));
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
-      dropzone.classList.remove('border-brand-gold');
+      dropzone.classList.remove('border-elabore-orange', 'bg-orange-50/50');
       handleFiles(e.dataTransfer.files);
     });
     fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
@@ -254,9 +272,9 @@
 
     function renderPreviews() {
       filePreviews.innerHTML = uploadedFiles.map((file, idx) => `
-        <div class="relative group bg-brand-input border border-brand-cardBorder rounded-xl overflow-hidden aspect-video shadow-md">
+        <div class="relative group bg-slate-100 border border-slate-200 rounded-xl overflow-hidden aspect-video shadow-xs">
           <img src="${file.data}" class="w-full h-full object-cover">
-          <button type="button" onclick="removeFile(${idx})" class="absolute top-1.5 right-1.5 bg-rose-500/90 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] hover:bg-rose-600 transition">✕</button>
+          <button type="button" onclick="removeFile(${idx})" class="absolute top-1.5 right-1.5 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] hover:bg-rose-600 transition shadow">✕</button>
         </div>
       `).join('');
     }
@@ -270,8 +288,8 @@
       const div = document.createElement('div');
       div.className = 'flex gap-2';
       div.innerHTML = `
-        <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold transition text-xs sm:text-sm">
-        <button type="button" class="text-slate-500 hover:text-rose-400 px-2" onclick="this.parentElement.remove()">✕</button>
+        <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-elabore-orange focus:ring-4 focus:ring-orange-500/10 transition text-xs sm:text-sm">
+        <button type="button" class="text-slate-400 hover:text-rose-500 px-2 font-bold" onclick="this.parentElement.remove()">✕</button>
       `;
       linksContainer.appendChild(div);
     });
@@ -309,25 +327,26 @@
 
         data.posts.forEach((post, idx) => {
           const card = document.createElement('div');
-          card.className = 'bg-brand-card border border-brand-cardBorder rounded-2xl p-6 shadow-2xl';
+          card.className = 'bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-lg shadow-slate-100';
           
           const isWarning = post.statusSeguranca.toLowerCase().includes('atenção') || post.statusSeguranca.toLowerCase().includes('risco');
-          const badgeClass = isWarning ? 'bg-amber-500/10 text-amber-300 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+          const badgeClass = isWarning ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+          const badgeIcon = isWarning ? 'fa-triangle-exclamation' : 'fa-circle-check';
 
           card.innerHTML = `
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-cardBorder">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-display">Postagem #${idx + 1}</span>
-              <span class="px-3 py-1 rounded-full text-xs font-semibold border ${badgeClass}">
-                ${post.statusSeguranca}
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 font-display">Postagem #${idx + 1}</span>
+              <span class="px-3 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 ${badgeClass}">
+                <i class="fa-solid ${badgeIcon}"></i> ${post.statusSeguranca}
               </span>
             </div>
             
-            ${post.alertaDetalhado ? `<div class="mb-4 text-xs text-amber-300 bg-amber-950/30 border border-amber-800/40 p-3.5 rounded-xl"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> <strong>Atenção Visual:</strong> ${post.alertaDetalhado}</div>` : ''}
+            ${post.alertaDetalhado ? `<div class="mb-4 text-xs font-medium text-amber-800 bg-amber-50 border border-amber-200 p-3.5 rounded-xl"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> <strong>Aviso de Auditoria:</strong> ${post.alertaDetalhado}</div>` : ''}
 
-            <div class="bg-brand-input rounded-xl p-4 sm:p-5 text-slate-200 text-sm whitespace-pre-wrap leading-relaxed font-sans mb-4 border border-brand-cardBorder" id="copyText_${idx}">${post.textoPost}</div>
+            <div class="bg-slate-50 rounded-2xl p-5 text-slate-700 text-sm whitespace-pre-wrap leading-relaxed border border-slate-200/80 mb-5" id="copyText_${idx}">${post.textoPost}</div>
 
             <div class="flex justify-end">
-              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-brand-input hover:bg-slate-800 border border-brand-cardBorder hover:border-brand-gold/50 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center gap-2">
+              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 px-5 rounded-xl transition flex items-center gap-2 shadow-sm active:scale-95">
                 <i class="fa-regular fa-copy"></i> Copiar Texto
               </button>
             </div>
