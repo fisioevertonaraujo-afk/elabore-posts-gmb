@@ -3,83 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elabore - Gerador de Posts GMB</title>
+  <title>Elabore - GMB Post Creator</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              gold: '#D4AF37',
+              goldHover: '#C59E27',
+              goldLight: '#F3E5AB',
+              dark: '#0A0D12',
+              card: '#12161F',
+              cardBorder: '#1F2633',
+              input: '#0E121A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #080A0F;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.04) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(30, 41, 59, 0.25) 0px, transparent 50%);
+    }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
-  <div class="max-w-4xl mx-auto p-6">
+<body class="text-slate-200 min-h-screen font-sans antialiased selection:bg-brand-gold selection:text-brand-dark">
+  <div class="max-w-4xl mx-auto px-4 py-10">
     
-    <!-- Cabeçalho -->
-    <header class="flex items-center justify-between pb-6 mb-8 border-b border-slate-800">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-          <span class="text-emerald-400">⚡</span> Elabore Post Creator
-        </h1>
-        <p class="text-sm text-slate-400">Gerador inteligente de postagens com visão computacional para GMB</p>
+    <!-- Header Elabore -->
+    <header class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-8 mb-8 border-b border-brand-cardBorder">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-amber-200 flex items-center justify-center shadow-lg shadow-amber-950/40 text-brand-dark font-black font-display text-2xl">
+          E
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-black font-display tracking-wide uppercase text-white">
+              Elabore <span class="text-brand-gold font-light">Produtora</span>
+            </h1>
+            <span class="text-[10px] bg-brand-gold/10 border border-brand-gold/30 text-brand-gold font-bold px-2 py-0.5 rounded-full tracking-wider">AI SUITE</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">Gerador de Posts GMB com Auditoria Visual e SEO Local</p>
+        </div>
       </div>
-      <div class="px-3 py-1 bg-slate-800 border border-slate-700 rounded-full text-xs text-slate-300">
-        Google AI Studio
+      
+      <div class="flex items-center gap-2 px-3.5 py-1.5 bg-brand-card border border-brand-cardBorder rounded-full text-xs text-slate-300 font-medium">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Gemini Multimodal Conectado
       </div>
     </header>
 
     <!-- Formulário Principal -->
-    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 mb-8 shadow-xl">
+    <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-6 sm:p-8 mb-8 shadow-2xl backdrop-blur-sm">
       
-      <!-- Seleção de Cliente -->
+      <!-- Passo 1: Seleção de Cliente -->
       <div class="mb-6">
-        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-          1. Selecione o Cliente
+        <label class="block text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-2 font-display">
+          1. Selecionar Cliente
         </label>
-        <select id="clientSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition">
-          <option value="">Carregando clientes...</option>
-        </select>
+        <div class="relative">
+          <select id="clientSelect" class="w-full bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition cursor-pointer appearance-none">
+            <option value="">Carregando clientes cadastrados...</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+            <i class="fa-solid fa-chevron-down text-xs"></i>
+          </div>
+        </div>
       </div>
 
       <!-- Resumo do Perfil -->
-      <div id="clientMeta" class="hidden mb-6 p-4 bg-slate-900/60 border border-slate-750 rounded-xl text-xs text-slate-400 grid grid-cols-2 gap-2"></div>
+      <div id="clientMeta" class="hidden mb-6 p-4 bg-brand-input/70 border border-brand-cardBorder rounded-xl text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
 
-      <!-- Seção de Mídia: Upload Local + Links do Drive -->
-      <div class="mb-6">
-        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-          2. Adicione as Imagens (Drive ou do Computador)
+      <!-- Passo 2: Seção de Mídia (Computador + Drive) -->
+      <div class="mb-8">
+        <label class="block text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-2 font-display">
+          2. Fotos da Semana (Upload Local ou Google Drive)
         </label>
 
-        <!-- Dropzone de Arquivos Locais -->
-        <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-emerald-500 rounded-xl p-6 text-center cursor-pointer bg-slate-900/40 transition mb-4">
+        <!-- Dropzone para computador -->
+        <div id="dropzone" class="border-2 border-dashed border-brand-cardBorder hover:border-brand-gold/60 rounded-xl p-8 text-center cursor-pointer bg-brand-input/40 transition group mb-4">
           <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-          <i class="fa-solid fa-cloud-arrow-up text-3xl text-emerald-400 mb-2"></i>
-          <p class="text-sm font-medium text-slate-200">Clique para selecionar do computador ou arraste as fotos aqui</p>
-          <p class="text-xs text-slate-500 mt-1">PNG, JPG ou WEBP (pode selecionar várias de uma vez)</p>
+          <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-800/80 group-hover:bg-brand-gold/10 flex items-center justify-center transition">
+            <i class="fa-solid fa-arrow-up-from-bracket text-lg text-slate-300 group-hover:text-brand-gold transition"></i>
+          </div>
+          <p class="text-sm font-semibold text-white">Arraste as fotos do computador ou clique para escolher</p>
+          <p class="text-xs text-slate-500 mt-1">PNG, JPG ou WEBP (múltiplos arquivos permitidos)</p>
         </div>
 
-        <!-- Preview das Fotos do Computador -->
-        <div id="filePreviews" class="grid grid-cols-4 gap-3 mb-4 empty:hidden"></div>
+        <!-- Preview das fotos anexadas -->
+        <div id="filePreviews" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 empty:hidden"></div>
 
         <!-- Links do Google Drive -->
-        <div class="pt-3 border-t border-slate-750">
-          <span class="text-xs text-slate-400 mb-2 block font-medium">Ou cole links do Google Drive:</span>
+        <div class="pt-4 border-t border-brand-cardBorder/60">
+          <span class="text-xs text-slate-400 mb-2 block font-medium">Ou cole links diretos do Google Drive:</span>
           <div id="linksContainer" class="space-y-2">
             <div class="flex gap-2">
-              <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
+              <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold transition text-xs sm:text-sm">
             </div>
           </div>
-          <button id="addLinkBtn" type="button" class="mt-2 text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1">
-            <i class="fa-solid fa-plus"></i> Adicionar outro link do Drive
+          <button id="addLinkBtn" type="button" class="mt-2.5 text-xs text-brand-gold hover:text-amber-300 font-semibold flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-circle-plus"></i> Adicionar outro link do Drive
           </button>
         </div>
       </div>
 
       <!-- Botão de Ação -->
-      <button id="generateBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl shadow-lg hover:shadow-emerald-500/20 transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Imagens & Gerar Posts
+      <button id="generateBtn" class="w-full bg-gradient-to-r from-brand-gold to-amber-500 hover:from-brand-goldHover hover:to-amber-600 text-brand-dark font-extrabold font-display uppercase tracking-wider py-4 rounded-xl shadow-lg shadow-amber-950/40 hover:shadow-brand-gold/20 transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Analisar Fotos & Criar Postagens
       </button>
     </div>
 
-    <!-- Loader -->
+    <!-- Loader Elegante -->
     <div id="loader" class="hidden text-center py-12">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-700 border-t-emerald-400 mb-3"></div>
-      <p class="text-sm text-slate-400">Analisando mídias e escrevendo copies otimizadas...</p>
+      <div class="inline-block animate-spin rounded-full h-9 w-9 border-2 border-slate-700 border-t-brand-gold mb-3"></div>
+      <p class="text-sm font-medium text-slate-300">Processando visão computacional e redigindo copies com SEO local...</p>
     </div>
 
     <!-- Resultados -->
@@ -168,23 +220,22 @@
       if (client) {
         clientMeta.classList.remove('hidden');
         clientMeta.innerHTML = `
-          <div><strong>Segmento:</strong> ${client.segmento}</div>
-          <div><strong>Local:</strong> ${client.bairro}, ${client.cidade}</div>
-          <div class="col-span-2"><strong>Palavras-chave:</strong> ${client.keywords.join(', ')}</div>
-          ${client.restricoes ? `<div class="col-span-2 text-amber-400"><strong>Restrições:</strong> ${client.restricoes}</div>` : ''}
+          <div><span class="text-slate-400 font-semibold">Segmento:</span> <span class="text-white">${client.segmento}</span></div>
+          <div><span class="text-slate-400 font-semibold">Local:</span> <span class="text-white">${client.bairro}, ${client.cidade}</span></div>
+          <div class="col-span-1 sm:col-span-2"><span class="text-slate-400 font-semibold">Palavras-chave:</span> <span class="text-slate-200">${client.keywords.join(', ')}</span></div>
+          ${client.restricoes ? `<div class="col-span-1 sm:col-span-2 text-amber-300/90"><span class="font-bold">Restrições:</span> ${client.restricoes}</div>` : ''}
         `;
       } else {
         clientMeta.classList.add('hidden');
       }
     });
 
-    // Upload & Drag-and-drop de arquivos locais
     dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-emerald-500'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-emerald-500'));
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-brand-gold'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-brand-gold'));
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
-      dropzone.classList.remove('border-emerald-500');
+      dropzone.classList.remove('border-brand-gold');
       handleFiles(e.dataTransfer.files);
     });
     fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
@@ -203,9 +254,9 @@
 
     function renderPreviews() {
       filePreviews.innerHTML = uploadedFiles.map((file, idx) => `
-        <div class="relative group bg-slate-950 border border-slate-800 rounded-xl overflow-hidden aspect-video">
+        <div class="relative group bg-brand-input border border-brand-cardBorder rounded-xl overflow-hidden aspect-video shadow-md">
           <img src="${file.data}" class="w-full h-full object-cover">
-          <button type="button" onclick="removeFile(${idx})" class="absolute top-1 right-1 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-80 hover:opacity-100">✕</button>
+          <button type="button" onclick="removeFile(${idx})" class="absolute top-1.5 right-1.5 bg-rose-500/90 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] hover:bg-rose-600 transition">✕</button>
         </div>
       `).join('');
     }
@@ -215,18 +266,16 @@
       renderPreviews();
     };
 
-    // Adicionar mais campos de links
     addLinkBtn.addEventListener('click', () => {
       const div = document.createElement('div');
       div.className = 'flex gap-2';
       div.innerHTML = `
-        <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-emerald-500 transition text-sm">
+        <input type="text" placeholder="https://drive.google.com/file/d/..." class="image-link flex-1 bg-brand-input border border-brand-cardBorder rounded-xl px-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-gold transition text-xs sm:text-sm">
         <button type="button" class="text-slate-500 hover:text-rose-400 px-2" onclick="this.parentElement.remove()">✕</button>
       `;
       linksContainer.appendChild(div);
     });
 
-    // Submissão
     generateBtn.addEventListener('click', async () => {
       const clientId = clientSelect.value;
       if (!clientId) return alert('Selecione um cliente.');
@@ -241,7 +290,6 @@
       loader.classList.remove('hidden');
       results.innerHTML = '';
 
-      // Monta payload unificado (arquivos em base64 + URLs)
       const payloadImages = [
         ...uploadedFiles.map(f => ({ type: 'base64', data: f.data.split(',')[1], mimeType: f.type })),
         ...urlLinks.map(url => ({ type: 'url', url }))
@@ -261,25 +309,25 @@
 
         data.posts.forEach((post, idx) => {
           const card = document.createElement('div');
-          card.className = 'bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl';
+          card.className = 'bg-brand-card border border-brand-cardBorder rounded-2xl p-6 shadow-2xl';
           
           const isWarning = post.statusSeguranca.toLowerCase().includes('atenção') || post.statusSeguranca.toLowerCase().includes('risco');
-          const badgeClass = isWarning ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+          const badgeClass = isWarning ? 'bg-amber-500/10 text-amber-300 border-amber-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
 
           card.innerHTML = `
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-750">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Postagem #${idx + 1}</span>
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-cardBorder">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-display">Postagem #${idx + 1}</span>
               <span class="px-3 py-1 rounded-full text-xs font-semibold border ${badgeClass}">
                 ${post.statusSeguranca}
               </span>
             </div>
             
-            ${post.alertaDetalhado ? `<div class="mb-4 text-xs text-amber-300 bg-amber-950/40 border border-amber-800/60 p-3 rounded-xl"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${post.alertaDetalhado}</div>` : ''}
+            ${post.alertaDetalhado ? `<div class="mb-4 text-xs text-amber-300 bg-amber-950/30 border border-amber-800/40 p-3.5 rounded-xl"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> <strong>Atenção Visual:</strong> ${post.alertaDetalhado}</div>` : ''}
 
-            <div class="bg-slate-900 rounded-xl p-4 text-slate-200 text-sm whitespace-pre-wrap leading-relaxed font-sans mb-4 border border-slate-750" id="copyText_${idx}">${post.textoPost}</div>
+            <div class="bg-brand-input rounded-xl p-4 sm:p-5 text-slate-200 text-sm whitespace-pre-wrap leading-relaxed font-sans mb-4 border border-brand-cardBorder" id="copyText_${idx}">${post.textoPost}</div>
 
             <div class="flex justify-end">
-              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center gap-2">
+              <button onclick="copiarTexto('copyText_${idx}', this)" class="bg-brand-input hover:bg-slate-800 border border-brand-cardBorder hover:border-brand-gold/50 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center gap-2">
                 <i class="fa-regular fa-copy"></i> Copiar Texto
               </button>
             </div>
