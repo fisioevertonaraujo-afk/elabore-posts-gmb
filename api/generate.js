@@ -80,7 +80,7 @@ Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
       }
       parts.push({ text: prompt });
 
-      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -103,7 +103,6 @@ Retorne APENAS um objeto JSON válido (sem tags markdown de código em volta):
         throw new Error('Nenhum texto retornado pelo modelo de IA.');
       }
 
-      // Limpeza de possíveis formatações markdown
       const cleanedText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
       return JSON.parse(cleanedText);
     });
