@@ -47,48 +47,46 @@ export default async function handler(req, res) {
       }
 
       const prompt = `
-Você é o especialista sênior em SEO Local e auditor de diretrizes do Google Meu Negócio da agência Elabore.
+Você é o especialista sênior em SEO Local, AEO (Answer Engine Optimization) e Google Meu Negócio da agência Elabore.
 
-DADOS DO CLIENTE:
+DADOS DA ENTIDADE / CLIENTE:
 - Nome: ${client.nome}
 - Segmento/Categoria: ${client.segmento} / ${client.categoria}
 - Localização: Bairro ${client.bairro}, Cidade ${client.cidade}
 - Serviços principais: ${client.servicos}
-- Palavras-chave obrigatórias: ${client.keywords ? client.keywords.join(', ') : ''}
-- Tom de Voz: ${client.tom || 'Profissional e direto'}
+- Palavras-chave semânticas: ${client.keywords ? client.keywords.join(', ') : ''}
+- Tom de Voz: ${client.tom || 'Profissional, direto e autoridade'}
 - Restrições específicas: ${client.restricoes || 'Nenhuma'}
 - Observações adicionais: ${client.obs || 'Nenhuma'}
 
-DIRETRIZES DE TEXTO GMB:
-1. NUNCA inclua preços, valores monetários (R$), telefones, WhatsApp ou links externos no texto.
-2. Não utilize travessão (-) como conector estilístico no texto do post.
-3. Seja conciso (100 a 180 palavras), com linguagem natural e persuasiva.
-4. Conecte o texto ao que você está vendo na imagem.
-5. Insira a localização (${client.bairro}, ${client.cidade}) de forma orgânica para indexação local.
-6. Termine com CTA alinhado ao botão oficial (ex: clique em Saiba Mais ou Agende).
+DIRETRIZES DE AEO E REDAÇÃO (GOOGLE MEU NEGÓCIO):
+1. REGRA DA RESPOSTA DIRETA (BLUF - Bottom Line Up Front):
+   - A PRIMEIRA FRASE deve responder sem rodeios o que é o serviço/tema mostrado na foto, para quem serve e qual dor/necessidade resolve na prática. Proibido iniciar com saudações genéricas ("Olá", "Você sabia?", "No dia a dia...").
+2. ENRIQUECIMENTO SEMÂNTICO DE ENTIDADES:
+   - Cite com naturalidade o nome do serviço, o público/sintoma tratado e a localização exata (${client.bairro}, ${client.cidade}) para permitir que IAs de busca associem o negócio a buscas locais imediatas.
+3. ESTRUTURA ESCANEÁVEL DO POST:
+   - Gancho direto (dor/necessidade real relacionada à imagem)
+   - Resolução prática e diferenciais em 2 a 3 linhas objetivas e espaçadas
+   - Chamada para Ação (CTA) clara alinhada ao botão oficial (${client.cta || 'Saiba mais'}).
+4. CONFORMIDADE RÍGIDA COM GMB:
+   - NUNCA inclua preços, valores em dinheiro (R$), números de telefone, WhatsApp ou links externos no texto.
+   - NUNCA use travessão (-) como conector estilístico.
+   - Evite excesso de emojis; use apenas 1 ou 2 se estritamente necessários para escaneabilidade.
+   - Tamanho ideal: 100 a 160 palavras.
 
-SEO DE NOMEAÇÃO DA IMAGEM:
+SEO DE NOMEAÇÃO DA FOTO:
 Crie um nome de arquivo em minúsculas, sem acentos, com palavras separadas por hífen e extensão .jpg.
-Estrutura: [termo-do-servico-na-foto]-[bairro]-[cidade]-[nome-do-cliente].jpg
+Estrutura: [servico-ou-termo-da-foto]-[bairro]-[cidade]-[nome-cliente].jpg
 
-AUDITORIA VISUAL RIGOROSA (DIRETRIZES DO GOOGLE MEU NEGÓCIO):
-Analise a imagem minuciosamente quanto a possíveis infrações que causam rejeição ou suspensão no Google:
-1. Placas de veículos expostas e legíveis.
-2. Valores monetários, preços (R$) ou promoções explícitas visíveis em faixas/etiquetas.
-3. Telefones, números de WhatsApp, URLs ou links gravados diretamente sobre a foto.
-4. Rostos de terceiros não autorizados ou clientes em primeiro plano sem contexto.
-5. Imagem com qualidade excessivamente baixa, borrada, muito escura ou com cara de banco de imagens genérico.
-6. Sobreposição excessiva de texto ou elementos promocionais poluindo a imagem.
+AUDITORIA VISUAL:
+Analise a imagem para risco de rejeição no Google (placas de veículos legíveis, preços visíveis em etiquetas/cardápios, telefones ou links sobrepostos, imagens genéricas). Se houver risco, marque "Atenção: Risco Detectado" e descreva em "alertaDetalhado". Caso contrário, marque "Aprovada" e deixe "alertaDetalhado" vazio.
 
-Se encontrar QUALQUER um desses pontos, marque "statusSeguranca" como "Atenção: Risco Detectado" e no "alertaDetalhado" explique exatamente o que foi visto e como ajustar (ex: "Placa de veículo visível ao fundo da foto. Recomendado borrar a placa antes de publicar no GMB.").
-Se a imagem estiver 100% segura, marque "statusSeguranca" como "Aprovada" e deixe "alertaDetalhado" vazio.
-
-Retorne APENAS um objeto JSON válido:
+Retorne APENAS um JSON válido no formato:
 {
   "nomeArquivoSugerido": "servico-bairro-cidade-cliente.jpg",
   "statusSeguranca": "Aprovada" ou "Atenção: Risco Detectado",
-  "alertaDetalhado": "Explicação clara e específica da diretriz violada e como corrigir",
-  "textoPost": "Texto da postagem pronto para o GMB"
+  "alertaDetalhado": "Explicação da diretriz violada e como corrigir ou vazio",
+  "textoPost": "Texto da postagem pronto para o GMB estruturado com BLUF e AEO"
 }
 `;
 
