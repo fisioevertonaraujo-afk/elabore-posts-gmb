@@ -62,9 +62,9 @@
         <div class="hidden sm:block h-10 w-px bg-slate-200 ml-2"></div>
         <div class="hidden sm:block text-left">
           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-elabore-orangeLight text-elabore-orange text-[11px] font-bold tracking-wider uppercase border border-elabore-orangeBorder">
-            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> AI Local SEO
+            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> AI Local SEO & AEO
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Gerador de Posts GMB & SEO de Imagens</p>
+          <p class="text-xs text-slate-500 mt-0.5">Gerador de Posts GMB (Fotos e Vídeo)</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
     
     <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-300/40">
       
-      <!-- Topo do Form com Botão de Limpar em Laranja Elabore -->
+      <!-- Topo do Form com Botão de Limpar -->
       <div class="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
         <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-display">Painel de Configuração</span>
         <button id="resetBtn" type="button" class="text-xs font-bold text-white bg-elabore-orange hover:bg-elabore-orangeHover px-4 py-2 rounded-xl shadow-md shadow-orange-500/20 hover:shadow-orange-500/35 hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-2 cursor-pointer font-display uppercase tracking-wide">
@@ -95,12 +95,12 @@
         </button>
       </div>
 
-      <!-- Passo 1: Selecionar Cliente Dinâmico -->
+      <!-- Passo 1: Selecionar Cliente -->
       <div class="mb-8">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-full bg-orange-100 text-elabore-orange text-xs font-bold flex items-center justify-center">1</span>
           <label class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display">
-            Selecione o Cliente (Base da Planilha)
+            Selecione o Cliente
           </label>
         </div>
         <div class="relative">
@@ -116,12 +116,12 @@
       <!-- Resumo do Perfil -->
       <div id="clientMeta" class="hidden mb-8 p-5 bg-gradient-to-br from-slate-50 to-orange-50/30 border border-orange-100/80 rounded-2xl text-xs text-slate-600 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
 
-      <!-- Passo 2: Mídias (Upload Local + Links Drive) -->
+      <!-- Passo 2: Mídias de Fotos -->
       <div class="mb-8">
         <div class="flex items-center gap-2 mb-2">
           <span class="w-6 h-6 rounded-full bg-orange-100 text-elabore-orange text-xs font-bold flex items-center justify-center">2</span>
           <label class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display">
-            Fotos da Postagem (Upload do Computador ou Google Drive)
+            Fotos da Postagem (Upload Local ou Google Drive)
           </label>
         </div>
 
@@ -130,15 +130,15 @@
           <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white border border-slate-200 group-hover:border-elabore-orange group-hover:scale-105 flex items-center justify-center transition shadow-sm text-elabore-orange">
             <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
           </div>
-          <p class="text-sm font-bold text-slate-800">Clique para selecionar do computador ou arraste as fotos aqui</p>
-          <p class="text-xs text-slate-400 mt-1 font-medium">Arquivos PNG, JPG ou WEBP (pode selecionar várias fotos)</p>
+          <p class="text-sm font-bold text-slate-800">Clique para selecionar fotos do computador ou arraste aqui</p>
+          <p class="text-xs text-slate-400 mt-1 font-medium">Arquivos PNG, JPG ou WEBP</p>
         </div>
 
         <div id="filePreviews" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 empty:hidden"></div>
 
         <div class="pt-5 border-t border-slate-100">
           <span class="text-xs font-semibold text-slate-500 mb-2.5 block flex items-center gap-1.5">
-            <i class="fa-brands fa-google-drive text-emerald-600"></i> Ou cole links compartilhados do Google Drive:
+            <i class="fa-brands fa-google-drive text-emerald-600"></i> Ou cole links compartilhados de fotos do Drive:
           </span>
           <div id="linksContainer" class="space-y-2.5">
             <div class="flex gap-2">
@@ -151,9 +151,23 @@
         </div>
       </div>
 
+      <!-- Passo 3: Contexto do Vídeo Semanal (Novo) -->
+      <div class="mb-8 pt-6 border-t border-slate-100">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs font-bold flex items-center justify-center">3</span>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display flex items-center gap-1.5">
+              <i class="fa-solid fa-video text-purple-600"></i> Contexto do Vídeo da Semana (Opcional)
+            </label>
+          </div>
+          <span class="text-[11px] text-slate-400 font-medium">Preencha caso haja post de vídeo</span>
+        </div>
+        <textarea id="videoContext" rows="3" placeholder="Descreva brevemente o que acontece no vídeo da semana (ex: Dra. Rafaela explicando a diferença entre dor na lombar por má postura e hérnia de disco, mostrando a maca e orientando o momento certo de procurar o consultório)..." class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-2xl p-4 text-slate-800 placeholder-slate-400 text-xs sm:text-sm leading-relaxed focus:outline-none focus:border-elabore-orange focus:ring-4 focus:ring-orange-500/10 transition resize-none"></textarea>
+      </div>
+
       <!-- Botão Gerar -->
       <button id="generateBtn" class="w-full bg-gradient-to-r from-elabore-orange to-amber-500 hover:from-elabore-orangeHover hover:to-amber-600 text-white font-extrabold font-display uppercase tracking-wider text-sm py-4 rounded-2xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.005] active:scale-[0.99] transition flex items-center justify-center gap-3 cursor-pointer">
-        <span>Analisar Fotos & Criar Postagens</span>
+        <span>Analisar & Gerar Postagens Completas</span>
         <i class="fa-solid fa-arrow-right"></i>
       </button>
 
@@ -162,8 +176,8 @@
     <!-- Loader -->
     <div id="loader" class="hidden text-center py-12">
       <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-orange-100 border-t-elabore-orange mb-3"></div>
-      <p class="text-sm font-semibold text-slate-700">Analisando imagem, gerando nomes SEO e copies locais...</p>
-      <p class="text-xs text-slate-500 mt-1">Auditando presença de placas de carros e regras do Google</p>
+      <p class="text-sm font-semibold text-slate-700">Estruturando postagens com metodologia BLUF e AEO...</p>
+      <p class="text-xs text-slate-500 mt-1">Auditando diretrizes, gerando copies e nomes de arquivos SEO</p>
     </div>
 
     <!-- Resultados -->
@@ -182,6 +196,7 @@
     const filePreviews = document.getElementById('filePreviews');
     const linksContainer = document.getElementById('linksContainer');
     const addLinkBtn = document.getElementById('addLinkBtn');
+    const videoContext = document.getElementById('videoContext');
     const generateBtn = document.getElementById('generateBtn');
     const resetBtn = document.getElementById('resetBtn');
     const loader = document.getElementById('loader');
@@ -271,6 +286,7 @@
       clientMeta.innerHTML = '';
       uploadedFiles = [];
       fileInput.value = '';
+      videoContext.value = '';
       renderPreviews();
       linksContainer.innerHTML = `
         <div class="flex gap-2">
@@ -287,9 +303,10 @@
 
       const client = clientsData.find(c => c.id === clientId);
       const urlLinks = Array.from(document.querySelectorAll('.image-link')).map(i => i.value.trim()).filter(Boolean);
+      const vContext = videoContext.value.trim();
 
-      if (uploadedFiles.length === 0 && urlLinks.length === 0) {
-        return alert('Adicione pelo menos uma imagem (anexando do computador ou colando link do Drive).');
+      if (uploadedFiles.length === 0 && urlLinks.length === 0 && !vContext) {
+        return alert('Adicione pelo menos uma foto ou descreva o contexto do vídeo da semana.');
       }
 
       loader.classList.remove('hidden');
@@ -304,7 +321,7 @@
         const response = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ client, images: payloadImages })
+          body: JSON.stringify({ client, images: payloadImages, videoContext: vContext })
         });
 
         const data = await response.json();
@@ -316,18 +333,24 @@
           const card = document.createElement('div');
           card.className = 'bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-300/40';
           
+          const isVideo = post.tipo === 'video';
+          const titleLabel = isVideo ? '<i class="fa-solid fa-video mr-1 text-purple-600"></i> Post do Vídeo da Semana' : `Postagem de Foto #${idx + 1}`;
+          
           const isWarning = (post.statusSeguranca || '').toLowerCase().includes('atenção') || (post.statusSeguranca || '').toLowerCase().includes('risco');
           const badgeClass = isWarning ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
           const badgeIcon = isWarning ? 'fa-triangle-exclamation' : 'fa-circle-check';
 
-          const seoFileName = post.nomeArquivoSugerido || `${client.keywords?.[0] || 'servico'}-${client.bairro || ''}-${client.cidade || ''}-${client.nome}.jpg`.toLowerCase().replace(/\s+/g, '-');
+          const seoTagLabel = isVideo ? 'Nome SEO Sugerido para o Vídeo (.mp4)' : 'Nome SEO Sugerido para a Foto (.jpg)';
+          const seoTagIcon = isVideo ? 'fa-video' : 'fa-file-image';
 
           card.innerHTML = `
             <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 font-display">Postagem #${idx + 1}</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700 font-display flex items-center">${titleLabel}</span>
+              ${!isVideo ? `
               <span class="px-3 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 ${badgeClass}">
                 <i class="fa-solid ${badgeIcon}"></i> ${post.statusSeguranca || 'Aprovada'}
               </span>
+              ` : '<span class="px-3 py-1 rounded-full text-xs font-bold border bg-purple-50 text-purple-700 border-purple-200"><i class="fa-solid fa-sparkles"></i> Vídeo AEO</span>'}
             </div>
             
             ${post.alertaDetalhado ? `<div class="mb-5 text-xs font-medium text-amber-800 bg-amber-50 border border-amber-200 p-3.5 rounded-xl"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> <strong>Aviso de Auditoria:</strong> ${post.alertaDetalhado}</div>` : ''}
@@ -336,17 +359,17 @@
             <div class="mb-5 p-4 bg-orange-50/70 border border-orange-200 rounded-2xl">
               <div class="flex items-center justify-between gap-2 mb-1.5">
                 <span class="text-[11px] font-bold uppercase tracking-wider text-elabore-orange font-display flex items-center gap-1.5">
-                  <i class="fa-solid fa-file-image"></i> Nome Recomendado para a Foto (SEO)
+                  <i class="fa-solid ${seoTagIcon}"></i> ${seoTagLabel}
                 </span>
                 <button onclick="copiarTexto('fileName_${idx}', this)" class="text-xs bg-white hover:bg-orange-100 text-slate-700 font-bold px-3 py-1 rounded-lg border border-orange-200 shadow-xs transition flex items-center gap-1 cursor-pointer">
                   <i class="fa-regular fa-copy"></i> Copiar Nome
                 </button>
               </div>
-              <code class="text-xs font-mono font-semibold text-slate-800 block bg-white px-3 py-2 rounded-xl border border-orange-100 break-all select-all" id="fileName_${idx}">${seoFileName}</code>
+              <code class="text-xs font-mono font-semibold text-slate-800 block bg-white px-3 py-2 rounded-xl border border-orange-100 break-all select-all" id="fileName_${idx}">${post.nomeArquivoSugerido}</code>
             </div>
 
             <!-- Texto do Post -->
-            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2 font-display">Texto do Post (GMB):</label>
+            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2 font-display">Texto do Post (GMB - Metodologia BLUF/AEO):</label>
             <div class="bg-slate-50 rounded-2xl p-5 text-slate-700 text-sm whitespace-pre-wrap leading-relaxed border border-slate-200/80 mb-5" id="copyText_${idx}">${post.textoPost}</div>
 
             <div class="flex justify-end">
