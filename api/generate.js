@@ -47,7 +47,6 @@ DIRETRIZES DE AEO E REDAÇÃO (GOOGLE MEU NEGÓCIO):
 `;
 
   try {
-    // Processamento das fotos
     const postsPromises = (images || []).map(async (imgObj, index) => {
       let base64Image = null;
       let mimeType = 'image/jpeg';
@@ -143,7 +142,6 @@ Retorne APENAS um JSON válido:
 
     const posts = await Promise.all(postsPromises);
 
-    // Processamento do contexto do vídeo (se a Fernanda tiver preenchido)
     if (videoContext && videoContext.trim()) {
       const videoPrompt = `
 Você é o especialista sênior em SEO Local, AEO e Google Meu Negócio da agência Elabore.
