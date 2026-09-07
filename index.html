@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elabore Produtora | Gerador GMB</title>
+  <title>Elabore | Gerador GMB</title>
+  
+  <!-- Favicon Oficial Elabore + GMB (Casinha Laranja com Seta Curva) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M 12 76 C 24 94, 66 96, 84 40' fill='none' stroke='%23C27100' stroke-width='8' stroke-linecap='round'/%3E%3Cpolygon points='74,40 92,34 92,54' fill='%23C27100'/%3E%3Crect x='25' y='44' width='50' height='42' rx='7' fill='%23DE8200'/%3E%3Cpath d='M 57 62 L 50 62 A 7 7 0 1 0 50 72 A 7 7 0 0 0 57 68 L 57 65 L 50 65' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M 23 48 L 77 48 L 75 53 L 25 53 Z' fill='%239A5200' opacity='0.4'/%3E%3Cpath d='M 22 26 L 35 26 L 33 46 C 33 49, 24 49, 24 46 Z' fill='%23F59E0B'/%3E%3Cpath d='M 35 26 L 47 26 L 45 46 C 45 49, 36 49, 36 46 Z' fill='%23EA580C'/%3E%3Cpath d='M 47 26 L 59 26 L 58 46 C 58 49, 49 49, 49 46 Z' fill='%23F59E0B'/%3E%3Cpath d='M 59 26 L 71 26 L 70 46 C 70 49, 61 49, 61 46 Z' fill='%23EA580C'/%3E%3Cpath d='M 71 26 L 78 26 L 76 46 C 76 49, 72 49, 72 46 Z' fill='%23F59E0B'/%3E%3C/svg%3E">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,7 +135,7 @@
             <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
           </div>
           <p class="text-sm font-bold text-slate-800">Clique para selecionar fotos do computador ou arraste aqui</p>
-          <p class="text-xs text-slate-400 mt-1 font-medium">Arquivos PNG, JPG ou WEBP (otimização automática para alta velocidade)</p>
+          <p class="text-xs text-slate-400 mt-1 font-medium">Imagens de qualquer resolução (otimização ultra-rápida automática)</p>
         </div>
 
         <div id="filePreviews" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 empty:hidden"></div>
@@ -244,8 +248,8 @@
     });
     fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
-    // Otimizador automático de imagens (evita estourar o limite de 4.5MB da Vercel)
-    function compressImage(file, maxDimension = 1600, quality = 0.85) {
+    // Redimensionamento rigoroso para 1000px e JPEG 70% (garante fotos abaixo de 250KB sem perder leitura do Gemini)
+    function compressImage(file, maxDimension = 1000, quality = 0.72) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -362,13 +366,12 @@
           body: JSON.stringify({ client, images: payloadImages, videoContext: vContext })
         });
 
-        // Verificação de resposta não-JSON (caso a Vercel retorne erro em HTML)
         const responseText = await response.text();
         let data;
         try {
           data = JSON.parse(responseText);
         } catch (e) {
-          throw new Error('A requisição falhou no servidor da Vercel. Detalhe: ' + responseText.slice(0, 120));
+          throw new Error('Servidor da Vercel retornou: ' + responseText.slice(0, 100));
         }
 
         loader.classList.add('hidden');
